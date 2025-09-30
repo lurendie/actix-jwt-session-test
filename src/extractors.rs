@@ -20,6 +20,15 @@ impl<ClaimsType: Claims> Default for Extractors<ClaimsType> {
 }
 
 impl<ClaimsType: Claims> Extractors<ClaimsType> {
+    pub fn new(
+        jwt_extractors: Vec<Arc<dyn SessionExtractor<ClaimsType>>>,
+        refresh_extractors: Vec<Arc<dyn SessionExtractor<RefreshToken>>>,
+    ) -> Self {
+        Self {
+            jwt_extractors,
+            refresh_extractors,
+        }
+    }
     /// Add cookie extractor for refresh token.
     #[must_use]
     pub fn with_refresh_cookie(mut self, name: &'static str) -> Self {
